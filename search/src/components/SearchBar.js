@@ -7,13 +7,23 @@ class SearchBar extends React.Component {
     onFormSubmit(event) {
         event.preventDefault();
 
-        this.props.onSearchSubmit(this.state.term)
+        // If we did not bind here or left this function as a regular function
+        // and not an arrow function then here the interpreter has no idea what
+        // `this` refers to. Which results in undefined.props.onSubmit(undefined.state.term).
+        // However, when we turn the onSubmit() handler at the bottom into an arrow function
+        // an arrow function looks up the chain to see the immediate enclosing class, in this case
+        // SearchBar. Then we have SearchBar.props.onSubmit(SearchBar.state.term).
+        this.props.onSubmit(this.state.term)
     }
+
+    // Arrow functions do not have a `this`, which means any usage of `this` inside an arrow function is just like any other variable, and is looked up lexically through parent scopes until a `this` is found.
+    
 
     // render
     render() {
         return (
-            <div className="ui segment"> 
+            <div className="ui segment">
+                {/* Here we are also binding this to the immediate parent component which is SearchBar */}
                 <form onSubmit={(event) => this.onFormSubmit(event)} className="ui form">
                     <div className="field">
                         <label> Image Search </label>
