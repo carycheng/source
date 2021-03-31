@@ -18,7 +18,7 @@ class SearchBar extends React.Component {
 
     // Arrow functions do not have a `this`, which means any usage of `this` inside an arrow function is just like any other variable, and is looked up lexically through parent scopes until a `this` is found.
 
-    /*
+    /*  https://medium.com/@rajwar67/a-guide-to-bind-this-keyword-in-react-js-256c7ee39970
      *  1) If a function is called using an object like obj.functionName() then this will always return a reference to an object
      *  2) If a function is called as a stand-alone function like functonName() then this will return a reference to window object (by default)BUT if strict mode is enabled, then this will return undefined.
      */
