@@ -1,6 +1,7 @@
 import React from 'react';
-import axios from 'axios';
+import unsplash from '../api/unsplash';
 import SearchBar from './SearchBar';
+import ImageList from './ImageList';
 
 class App extends React.Component {
     state = { images: [] };
@@ -11,14 +12,11 @@ class App extends React.Component {
     // we were essentially calling undefined.setState(). By using binding an turning
     // this function into an arrow function the arrow function allows us to look up
     // the chain and see the immediate parent class in this case App so we can then
-    // call App.setState({images});
+    // call App.setState({images})
     onSearchSubmit = async (term) =>{
-        const response = await axios.get('https://api.unsplash.com/search/photos', {
-            params: { query: term },
-            headers: {
-            Authorization:
-                'Client-ID 2b98c1afb0aed3b3d94a1866bdc3ac013d21a0c86d236a0fee32355c331c0296',
-            },
+
+        const response = await unsplash.get('/search/photos', {
+            params: {query: term}
         });
 
         this.setState({images: response.data.results});
@@ -28,6 +26,7 @@ class App extends React.Component {
         return (
             <div className="ui container" style={{marginTop: '10px'}}>
                 <SearchBar onSubmit={this.onSearchSubmit}/>
+                <ImageList images={this.state.images}/>
                 Found: {this.state.images.length} images
             </div>
         );
