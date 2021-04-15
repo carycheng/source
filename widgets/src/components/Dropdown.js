@@ -1,16 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Dropdown = ({options, selected, onSelectedChange}) => {
     const [open, setOpen] = useState(false);
+    const ref = useRef();
 
     useEffect(() => {
-        document.body.addEventListener(
-          "click",
-          () => {
+        const onBodyClick = (event) => {
+            if (ref.current.contains(event.target)) {
+                return;
+            }
+    
             setOpen(false);
-          },
-          { capture: true }
-        );
+        };
+
+        document.body.addEventListener("click", onBodyClick, {capture: true});
+
+        return () => {
+            document.body.removeEventListener('click', onBodyClick, {capture: true});
+        };
     }, []);
 
     // Event Bubbling - Whenever an item is clicked, the browser creates an Event object.
@@ -32,7 +39,7 @@ const Dropdown = ({options, selected, onSelectedChange}) => {
     });
 
     return (
-        <div className="ui form">
+        <div ref={ref} className="ui form">
             <div className="field">
                 <label className="label"> Select a Color </label>
                 <div onClick={()=> setOpen(!open)} className={`ui selection dropdown ${open ? 'visible active': ''}`}>
