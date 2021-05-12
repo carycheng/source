@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '../actions/index';
 
+// ComponentDidMount is similar to useEffect()
 class PostList extends React.Component {
+    componentDidMount() {
+        this.props.fetchPosts;
+    }
+
     render() {
         return <div className="ui container">Post List</div>
     };
