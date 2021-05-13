@@ -6,7 +6,7 @@ import { fetchPosts } from '../actions/index';
 // ComponentDidMount is similar to useEffect()
 class PostList extends React.Component {
     componentDidMount() {
-        this.props.fetchPosts;
+        this.props.fetchPosts();
     }
 
     render() {
