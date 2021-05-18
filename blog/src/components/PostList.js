@@ -10,6 +10,7 @@ class PostList extends React.Component {
         this.props.fetchPosts();
     }
 
+    //list renderer
     renderList() {
         return this.props.posts.map(post => {
             return (
