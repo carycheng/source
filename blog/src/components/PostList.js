@@ -38,4 +38,5 @@ const mapStateToProps = (state) => {
     return {posts: state.posts};
 }
 
+// Connect function provides access to Provider component
 export default connect(mapStateToProps, { fetchPosts: fetchPosts })(PostList);
