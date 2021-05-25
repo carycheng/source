@@ -9,7 +9,7 @@ class UserHeader extends React.Component {
     }
 
     render() {
-        const user = this.props.user.find((user) => user.id == this.props.userId)
+        const { user } = this.props;  
 
         if (!user) {
             return null;
@@ -22,8 +22,9 @@ class UserHeader extends React.Component {
 };
 
 // Give this component access to state that is set by the reducer.
-const mapStateToProps = (state) => {
-    return {user: state.user};
+// ownProps allows us to retrieve props passed into this component from a parent component.
+const mapStateToProps = ( state, ownProps ) => {
+    return {user: state.users.find(user => user.id === ownProps.userId)};
 }
 
 export default connect(mapStateToProps, { fetchUser })(UserHeader);
