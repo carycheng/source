@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchPosts } from '../actions/index';
+import { fetchPostsAndUsers } from '../actions/index';
 import UserHeader from './UserHeader';
 
 // ComponentDidMount is similar to useEffect()
 class PostList extends React.Component {
     componentDidMount() {
-        this.props.fetchPosts();
+        this.props.fetchPostsAndUsers();
     }
 
     //list renderer
@@ -39,4 +39,4 @@ const mapStateToProps = (state) => {
 }
 
 // Connect function provides access to Provider component
-export default connect(mapStateToProps, { fetchPosts: fetchPosts })(PostList);
+export default connect(mapStateToProps, { fetchPostsAndUsers: fetchPostsAndUsers })(PostList);

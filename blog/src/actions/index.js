@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 //Redux-thunk is a middleware that only does one thing:
@@ -24,11 +25,20 @@ export const fetchPosts = () => async dispatch => {
     dispatch({type: 'FETCH_POSTS', payload: response.data});
 };
 
+// The double arrow pattern here is actually an outer function that returns an inner function.
+// The first function takes a param of id and returns a second function that takes a param dispatch.
 export const fetchUser = id => async dispatch => {
     const response = await jsonPlaceholder.get(`/users/${id}`);
 
     dispatch({type: 'FETCH_USER', payload: response.data});
 }
+
+export const fetchPostsAndUsers = () => async (dispatch, getState) => {
+    dispatch(fetchPosts());
+
+    const userIds = _uniq(_.map(getState().posts, 'userId'));
+    userIds.forEach(id => dispatch(fetchUser(id)));
+};
 
 // export const fetchUser = id => dispatch => {
 //     _fetchUser(id, dispatch);
