@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
-// Anytime we expect to make an API request from action creator we will use redux thunk.
+// *Anytime we expect to make an API request from action creator we will use redux thunk.
 
 //Redux-thunk is a middleware that only does one thing:
 //An action creator gets automatically dispatched via react-redux. Redux-thunk is the middleware that
@@ -27,7 +27,7 @@ export const fetchPosts = () => async dispatch => {
     dispatch({type: 'FETCH_POSTS', payload: response.data});
 };
 
-// The double arrow pattern here is actually an outer function that returns an inner function.
+// *The double arrow pattern here is actually an outer function that returns an inner function.
 // The first function takes a param of id and returns a second function that takes a param dispatch.
 
 /**

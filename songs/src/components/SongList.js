@@ -32,6 +32,11 @@ const mapStateToProps = (state) => {
     return { songs: state.songs };
 }
 
+// All functions added to the second parameter is wrapped by the Connect function.
+// Anything a function that is registered with connect like selectSong is wrapped
+// and whenever it is called the dispatch() function is also called.
+// store.dispatch(selectSong(song)) and the store is updated, otherwise you are
+// just calling a pure javascript function.
 export default connect(mapStateToProps, {
     selectSong: selectSong
 })(SongList);
