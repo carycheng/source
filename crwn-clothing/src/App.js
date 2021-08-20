@@ -24,7 +24,22 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => this.setState({currentUser: user}));
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = createUserProfileDocument(userAuth);
+
+        userRef.onSnapShot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot,
+              ...snapShot.data()
+            }
+          })
+        });
+      } else {
+        this.setState({currentUser: userAuth});
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -43,6 +58,32 @@ class App extends Component {
       </div>
     );
   }
+}
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`)
+
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = newDate();
+    
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      });
+    } catch (error) {
+      console.log('error creating user', error.message);
+    }
+  }
+  
+  return userRef;
 }
 
 export default App;
